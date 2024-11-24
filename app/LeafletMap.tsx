@@ -7,16 +7,23 @@ import {
   getYouchiSiteFromNumber,
   toEraList,
 } from "./utils";
-import EraLayerControl, { EraLayerInput } from "./EraLayerControl";
+import EraControl, { EraInput } from "./EraControl";
 import { FormProvider, useForm } from "react-hook-form";
 import LegendControl from "./LegendControl";
 import { useSiteData } from "./useSiteData";
+import L from "leaflet";
+import { LocationMarker } from "./LocationMarker";
+import LocationLayerControl from "./LocationLayerControl";
+import { useState } from "react";
+L.Icon.Default.imagePath =
+  "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/";
 
 export default function LeafletMap() {
   const iseki = useIsekiData();
   const site = useSiteData();
+  const [position, setPosition] = useState<{ lat: number; lng: number }>();
 
-  const form = useForm<EraLayerInput>({
+  const form = useForm<EraInput>({
     reValidateMode: "onSubmit",
     defaultValues: {
       era: 1,
@@ -81,8 +88,20 @@ export default function LeafletMap() {
             }}
           />
         )}
-        <EraLayerControl />
+        <EraControl />
         <LegendControl />
+        {/*
+        <LocationMarker
+          position={position}
+          onLocationChange={(lat, lng) => setPosition({ lat, lng })}
+        />
+        */}
+        {/* iseki && site && (
+          <LocationLayerControl
+            geoJsonList={[iseki, site]}
+            position={position}
+          />
+        )*/}
       </MapContainer>
     </FormProvider>
   );

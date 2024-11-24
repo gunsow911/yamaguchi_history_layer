@@ -56,42 +56,42 @@ export const japanEraList: Era[] = [
   {
     order: 1,
     name: "旧石器",
-    display: "旧石器時代",
+    display: "旧石器時代(約250万年前〜約1万年前)",
   },
   {
     order: 2,
     name: "縄文",
-    display: "縄文時代",
+    display: "縄文時代(約1万3,000年前〜紀元前10世紀頃)",
   },
   {
     order: 3,
     name: "弥生",
-    display: "弥生時代",
+    display: "弥生時代(紀元前10世紀頃〜3世紀頃)",
   },
   {
     order: 4,
     name: "古墳",
-    display: "古墳時代",
+    display: "古墳時代(3世紀中頃〜7世紀末)",
   },
   {
     order: 5,
     name: "奈良",
-    display: "奈良時代",
+    display: "奈良時代(710年〜794年)",
   },
   {
     order: 6,
     name: "平安",
-    display: "平安時代",
+    display: "平安時代(794年〜1185年)",
   },
   {
     order: 7,
     name: "中世",
-    display: "中世",
+    display: "中世(1185年〜1573年)",
   },
   {
     order: 8,
     name: "近世",
-    display: "近世",
+    display: "近世(1573年〜1868年)",
   },
   {
     order: 9,
