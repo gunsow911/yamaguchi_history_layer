@@ -1,7 +1,7 @@
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useIsekiData } from "./useIsekiData";
-import { toEraList } from "./utils";
+import { getSiteTypeFromName, toEraList } from "./utils";
 import EraLayerControl, { EraLayerInput } from "./EraLayerControl";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -35,16 +35,26 @@ export default function LeafletMap() {
             style={(feature) => {
               const eraString = feature?.properties["時代"] as string | null;
               const eras = toEraList(eraString ?? "");
-              if (
-                eras.filter((era) => era.order == form.getValues().era).length >
-                0
-              ) {
-                return { opacity: 1, fillOpacity: 0.3, color: "red" };
+              const pastNumber = eras
+                .map((era) => form.getValues().era - era.order)
+                .reduce((prev, current) => {
+                  if (current < prev) return current;
+                  return prev;
+                }, 8);
+              if (pastNumber < 0) {
+                return {
+                  opacity: 0,
+                  fillOpacity: 0,
+                };
               }
-              return { opacity: 0, fillOpacity: 0 };
-            }}
-            onEachFeature={(feature) => {
-              console.log(feature.properties["種別"]);
+              const site = getSiteTypeFromName(
+                feature?.properties["種別"] ?? ""
+              );
+              return {
+                opacity: 1 - pastNumber * 0.15,
+                fillOpacity: 0.8 - pastNumber * 0.15,
+                color: site.color,
+              };
             }}
           />
         )}

@@ -1,6 +1,35 @@
 import { Era, SiteType } from "./type";
 
-// const japanSiteList: SiteType[] = [{}];
+const japanSiteList: SiteType[] = [
+  {
+    color: "#1F77B4",
+    name: "散布地",
+  },
+  {
+    color: "#FF7F0E",
+    name: "集落跡",
+  },
+  {
+    color: "#2CA02C",
+    name: "城館跡",
+  },
+  {
+    color: "#D62728",
+    name: "生産遺跡",
+  },
+  {
+    color: "#9467BD",
+    name: "社寺跡",
+  },
+  {
+    color: "#8C564B",
+    name: "その他の遺跡",
+  },
+  {
+    color: "#E377C2",
+    name: "埋葬跡",
+  },
+];
 
 const japanEraList: Era[] = [
   {
@@ -36,6 +65,19 @@ const japanEraList: Era[] = [
     name: "近世",
   },
 ];
+
+export const getSiteTypeFromName = (name: string): SiteType => {
+  const site = japanSiteList.find((site) => {
+    return name.includes(site.name);
+  });
+  if (site) {
+    return site;
+  }
+  return {
+    color: "#000000",
+    name: "その他",
+  };
+};
 
 export const getEraFromOrder = (order: number): Era | undefined => {
   const era = japanEraList.find((era) => {
