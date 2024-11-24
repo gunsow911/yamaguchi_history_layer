@@ -1,14 +1,21 @@
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useIsekiData } from "./useIsekiData";
-import { getSiteTypeFromName, toEraList } from "./utils";
+import {
+  getIsekiSiteFromName,
+  getSiteType,
+  getYouchiSiteFromNumber,
+  toEraList,
+} from "./utils";
 import EraLayerControl, { EraLayerInput } from "./EraLayerControl";
 import { FormProvider, useForm } from "react-hook-form";
+import LegendControl from "./LegendControl";
+import { useSiteData } from "./useSiteData";
 
 export default function LeafletMap() {
   const iseki = useIsekiData();
-  // const site = useSiteData();
-  //
+  const site = useSiteData();
+
   const form = useForm<EraLayerInput>({
     reValidateMode: "onSubmit",
     defaultValues: {
@@ -47,20 +54,35 @@ export default function LeafletMap() {
                   fillOpacity: 0,
                 };
               }
-              const site = getSiteTypeFromName(
+              const site = getIsekiSiteFromName(
                 feature?.properties["種別"] ?? ""
               );
+              const siteType = getSiteType(site);
               return {
-                opacity: 1 - pastNumber * 0.15,
-                fillOpacity: 0.8 - pastNumber * 0.15,
-                color: site.color,
+                opacity: 1 - pastNumber * 0.1,
+                fillOpacity: 0.8 - pastNumber * 0.09,
+                color: siteType.color,
               };
             }}
           />
         )}
-
-        {/* site && <GeoJSON data={site} /> */}
+        {site && (
+          <GeoJSON
+            data={site}
+            style={(feature) => {
+              const youchiString = feature?.properties["A29_004"] as
+                | number
+                | null;
+              const site = getYouchiSiteFromNumber(youchiString ?? 99);
+              const siteType = getSiteType(site);
+              return {
+                color: siteType.color,
+              };
+            }}
+          />
+        )}
         <EraLayerControl />
+        <LegendControl />
       </MapContainer>
     </FormProvider>
   );

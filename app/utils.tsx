@@ -1,6 +1,27 @@
 import { Era, SiteType } from "./type";
 
-const japanSiteList: SiteType[] = [
+export type SiteEnum = "Zyuukyo" | "Shougyou" | "Kougyou" | "Unknown";
+
+export const japanYouchiSiteList: SiteType[] = [
+  {
+    color: "#D62728",
+    name: "住居用地",
+  },
+  {
+    color: "#2CA02C",
+    name: "商業用地",
+  },
+  {
+    color: "#1F77B4",
+    name: "工業用地",
+  },
+  {
+    color: "#8C564B",
+    name: "不明",
+  },
+];
+
+export const japanIsekiSiteList: SiteType[] = [
   {
     color: "#1F77B4",
     name: "散布地",
@@ -22,16 +43,16 @@ const japanSiteList: SiteType[] = [
     name: "社寺跡",
   },
   {
-    color: "#8C564B",
-    name: "その他の遺跡",
-  },
-  {
     color: "#E377C2",
     name: "埋葬跡",
   },
+  {
+    color: "#8C564B",
+    name: "その他の遺跡",
+  },
 ];
 
-const japanEraList: Era[] = [
+export const japanEraList: Era[] = [
   {
     order: 1,
     name: "旧石器",
@@ -66,17 +87,73 @@ const japanEraList: Era[] = [
   },
 ];
 
-export const getSiteTypeFromName = (name: string): SiteType => {
-  const site = japanSiteList.find((site) => {
+export const getSiteType = (site: SiteEnum): SiteType => {
+  if (site === "Zyuukyo") {
+    return {
+      color: "#D62728",
+      name: "住居用地",
+    };
+  }
+  if (site === "Shougyou") {
+    return {
+      color: "#2CA02C",
+      name: "商業用地",
+    };
+  }
+  if (site === "Kougyou") {
+    return {
+      color: "#1F77B4",
+      name: "工業用地",
+    };
+  }
+  return {
+    color: "#8C564B",
+    name: "不明",
+  };
+};
+
+export const getYouchiSiteFromNumber = (num: number): SiteEnum => {
+  const jyuukyoNumber = [1, 2, 3, 4, 5, 6, 7, 21];
+  const shougyouNumber = [8, 9];
+  const kougyouNunber = [10, 11, 12];
+
+  if (jyuukyoNumber.includes(num)) {
+    return "Zyuukyo";
+  }
+  if (shougyouNumber.includes(num)) {
+    return "Shougyou";
+  }
+  if (kougyouNunber.includes(num)) {
+    return "Kougyou";
+  }
+  return "Unknown";
+};
+
+const getYouchiSiteFromIseki = (iseki: SiteType): SiteEnum => {
+  const jyuukyo = ["散布地", "集落跡", "城館跡", "埋葬跡"];
+  const shougyou = ["社寺跡"];
+  const kougyou = ["生産遺跡"];
+
+  if (jyuukyo.includes(iseki.name)) {
+    return "Zyuukyo";
+  }
+  if (shougyou.includes(iseki.name)) {
+    return "Shougyou";
+  }
+  if (kougyou.includes(iseki.name)) {
+    return "Kougyou";
+  }
+  return "Unknown";
+};
+
+export const getIsekiSiteFromName = (name: string): SiteEnum => {
+  const site = japanIsekiSiteList.find((site) => {
     return name.includes(site.name);
   });
   if (site) {
-    return site;
+    return getYouchiSiteFromIseki(site);
   }
-  return {
-    color: "#000000",
-    name: "その他",
-  };
+  return "Unknown";
 };
 
 export const getEraFromOrder = (order: number): Era | undefined => {
