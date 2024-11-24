@@ -12,7 +12,7 @@ const EraLayerControl = () => {
 
   const eraName = useMemo(() => {
     const era = getEraFromOrder(eraNumber);
-    return era?.name ?? "";
+    return era?.display ?? "";
   }, [eraNumber]);
 
   return (
@@ -20,10 +20,10 @@ const EraLayerControl = () => {
       <div className="leaflet-control leaflet-bar p-2 bg-white text-gray-900">
         <div className="pb-2">
           <div>
-            <b>{eraName}時代</b>
+            <b>{eraName}</b>
           </div>
           <div className="flex items-center">
-            <input type="range" min="1" max="8" step="1" {...register("era")} />
+            <input type="range" min="1" max="9" step="1" {...register("era")} />
           </div>
         </div>
       </div>

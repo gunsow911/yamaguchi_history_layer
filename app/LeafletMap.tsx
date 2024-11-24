@@ -66,7 +66,7 @@ export default function LeafletMap() {
             }}
           />
         )}
-        {site && (
+        {site && form.getValues().era == 9 && (
           <GeoJSON
             data={site}
             style={(feature) => {

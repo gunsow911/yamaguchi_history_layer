@@ -56,34 +56,47 @@ export const japanEraList: Era[] = [
   {
     order: 1,
     name: "旧石器",
+    display: "旧石器時代",
   },
   {
     order: 2,
     name: "縄文",
+    display: "縄文時代",
   },
   {
     order: 3,
     name: "弥生",
+    display: "弥生時代",
   },
   {
     order: 4,
     name: "古墳",
+    display: "古墳時代",
   },
   {
     order: 5,
     name: "奈良",
+    display: "奈良時代",
   },
   {
     order: 6,
     name: "平安",
+    display: "平安時代",
   },
   {
     order: 7,
     name: "中世",
+    display: "中世",
   },
   {
     order: 8,
     name: "近世",
+    display: "近世",
+  },
+  {
+    order: 9,
+    name: "現代",
+    display: "現代",
   },
 ];
 
@@ -167,7 +180,6 @@ export const getEraFromOrder = (order: number): Era | undefined => {
 };
 
 const getEraListFromRange = (start: Era, end: Era): Era[] => {
-  // startとendの間にあるEraを取得する
   const eraList: Era[] = [];
   japanEraList.forEach((era) => {
     if (start.order <= era.order && era.order <= end.order) {
